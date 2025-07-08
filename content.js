@@ -1,5 +1,21 @@
 
+/**
+ * @author Andri Huga
+ * @version 1.2
+ * 
+ */
+
 (function () {
+
+    const config = {
+        columns: {
+            name: 1,
+            price: 2,
+            mileage: 3,
+            state: 4,
+        },
+    };
+
     const url = window.location.hostname;
 
     const getText = (selector) => {
@@ -35,6 +51,14 @@
         state = raw_state.split('-')[0].trim(); // вернёт "CO"
     }
 
-    const row = [name, price, mileage, state].join('\\t');
+    const cols = config.columns;
+    const max = Math.max(cols.name, cols.price, cols.mileage, cols.state);
+    const rowArr = new Array(max).fill('');
+    rowArr[cols.name - 1] = name;
+    rowArr[cols.price - 1] = price;
+    rowArr[cols.mileage - 1] = mileage;
+    rowArr[cols.state - 1] = state;
+    const row = rowArr.join('\t');
+
     chrome.runtime.sendMessage({ action: 'copyData', text: row });
 })();
