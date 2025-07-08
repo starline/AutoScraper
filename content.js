@@ -28,13 +28,13 @@
     if (url.includes('iaai.com')) {
 
         // name
-        name = getText('h1.vehicle-title') || getText('.title-info__title');
+        name = getText('h1.heading-2');
 
         // Odometer
-        mileage = getText('.vehicle-info__odometer .value') || getText('li:has(.odometer) .value');
+        mileage = getOdometerValueFromList();
 
         // state
-        state = getText('.branch-location__address') || getText('.branch-location__name');
+        state = getStateFromSellingBranch();
 
     } else if (url.includes('copart.com')) {
 
@@ -64,3 +64,33 @@
 
     chrome.runtime.sendMessage({ action: 'copyData', text: row });
 })();
+
+
+function getOdometerValueFromList() {
+    const items = document.querySelectorAll('li.data-list__item');
+    for (const item of items) {
+        const label = item.querySelector('.data-list__label')?.textContent.trim();
+        if (label === 'Odometer:') {
+            const value = item.querySelector('.data-list__value')?.textContent.trim() || '';
+            const match = value.match(/[\d,]+/); // находит 37,965
+            if (match) {
+                return match[0].replace(/,/g, ''); // убираем запятые: 37965
+            }
+        }
+    }
+    return '';
+}
+
+
+function getStateFromSellingBranch() {
+    const items = document.querySelectorAll('li.data-list__item');
+    for (const item of items) {
+        const label = item.querySelector('.data-list__label')?.textContent.trim();
+        if (label === 'Selling Branch:') {
+            const value = item.querySelector('.data-list__value')?.textContent.trim();
+            const match = value.match(/\(([^)]+)\)/); // ищем текст в скобках: (TX)
+            return match ? match[1] : '';
+        }
+    }
+    return '';
+}
