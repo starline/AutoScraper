@@ -8,7 +8,7 @@ document.getElementById('copy').addEventListener('click', async () => {
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    files: ['content.js'],
+    files: ['content/content.js'],
   });
 });
 
