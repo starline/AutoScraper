@@ -10,15 +10,29 @@
     let name = '', price = '', mileage = '', state = '';
 
     if (url.includes('iaai.com')) {
+
+        // name
         name = getText('h1.vehicle-title') || getText('.title-info__title');
-        price = getText('.final-bid span.amount') || getText('.vehicle-pricing__price');
+
+        // Odometer
         mileage = getText('.vehicle-info__odometer .value') || getText('li:has(.odometer) .value');
+
+        // state
         state = getText('.branch-location__address') || getText('.branch-location__name');
+
     } else if (url.includes('copart.com')) {
-        name = getText('.lot-title h1') || getText('h1 span');
-        price = getText('.lot-details-right span.lot-details-item-value[data-uname="lotdetailCurrentBid"]');
-        mileage = getText('span[data-uname="lotdetailOdometer"]');
-        state = getText('span[data-uname="lotdetailLocation"]');
+
+        // Name
+        let engine = getText('span[data-uname="lotdetailEnginetype"]');
+        name = getText('h1.title') + ' - ' + engine;
+
+        // Odometer
+        let raw = getText('span[data-uname="lotdetailOdometervalue"] > span > span');
+        mileage = raw.split('mi')[0].trim(); // вернёт "125,606"
+
+        // state
+        let raw_state = getText('span[data-uname="lotdetailTitledescriptionvalue"] > span > span');
+        state = raw_state.split('-')[0].trim(); // вернёт "CO"
     }
 
     const row = [name, price, mileage, state].join('\\t');
