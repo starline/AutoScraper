@@ -3,7 +3,7 @@
   "name": "Auto Info Parser",
   "version": "1.0",
   "description": "Извлекает информацию с iaai.com и copart.com и копирует в буфер.",
-  "permissions": ["scripting", "clipboardWrite", "activeTab"],
+  "permissions": ["scripting", "clipboardWrite", "activeTab", "tabs"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

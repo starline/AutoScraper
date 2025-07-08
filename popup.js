@@ -6,7 +6,10 @@ document.getElementById('copy').addEventListener('click', async () => {
     return;
   }
 
-  chrome.tabs.executeScript(tab.id, { file: "content.js" });
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["content.js"],
+  });
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
