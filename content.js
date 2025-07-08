@@ -10,9 +10,9 @@
     const config = {
         columns: {
             name: 1,
-            price: 2,
-            mileage: 3,
-            state: 4,
+            mileage: 4,
+            state: 11,
+            link: 22
         },
     };
 
@@ -23,7 +23,7 @@
         return el ? el.textContent.trim() : '';
     };
 
-    let name = '', price = '', mileage = '', state = '';
+    let name = '', link = '', mileage = '', state = '';
 
     if (url.includes('iaai.com')) {
 
@@ -51,13 +51,15 @@
         state = raw_state.split('-')[0].trim(); // вернёт "CO"
     }
 
+    link = window.location.href;
+
     const cols = config.columns;
-    const max = Math.max(cols.name, cols.price, cols.mileage, cols.state);
+    const max = Math.max(cols.name, cols.mileage, cols.state, cols.link);
     const rowArr = new Array(max).fill('');
     rowArr[cols.name - 1] = name;
-    rowArr[cols.price - 1] = price;
     rowArr[cols.mileage - 1] = mileage;
     rowArr[cols.state - 1] = state;
+    rowArr[cols.link - 1] = link;
     const row = rowArr.join('\t');
 
     chrome.runtime.sendMessage({ action: 'copyData', text: row });
