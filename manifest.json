@@ -3,17 +3,26 @@
   "name": "Auto Info Parser",
   "version": "1.0",
   "description": "Извлекает информацию с iaai.com и copart.com и копирует в буфер.",
-  "permissions": ["scripting", "clipboardWrite", "activeTab", "tabs"],
+  "permissions": [
+    "scripting",
+    "clipboardWrite",
+    "activeTab",
+    "tabs"
+  ],
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "popup/popup.html",
     "default_icon": {
-      "16": "icon.png"
+      "16": "assets/icon.png"
     }
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content/content.js"
+      ],
       "run_at": "document_idle"
     }
   ]
